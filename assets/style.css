@@ -1,0 +1,12 @@
+.card{
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+#destaque{
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+.titulo{
+    text-align: center;
+    margin-bottom: 60px;
+}

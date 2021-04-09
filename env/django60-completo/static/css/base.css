@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+div#container {
+    flex: 1;
+}
+
+.barra {
+    overflow-y: scroll;
+}
+
+.footer {
+   background-color: #44484c;
+   color: #efefef;
+   padding: 30px 0;
+}
+
+.footer a {
+   color: #639bcf;
+}
+
+.footer a:hover {
+   color: #d8e6f3;
+}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Hortifruti
+{% endblock %}
+
+{% block corpo %}
+   <div class="row mt-4">
+      <div class="col-md-4 mb-4 mb-md-0">
+         <img class="img-fluid rounded" style="width: 300px" src="{{ produto.imagem.url }}">
+      </div>
+      <div id="lista-produtos" class="col-md-8">
+         <h4>{{ produto.nome }} ({{ produto.descricao }})</h4>
+         <h5><a style="text-decoration: none"
+                href="{{ produto.categoria.get_absolute_url }}">{{ produto.categoria }}</a></h5>
+         <p><strong>Preço: </strong>R$ {{ produto.preco }} por unidade.</p>
+
+         <form class="form-inline"
+               style="{% if form.quantidade.value == 0 %} display: none {% endif %}"
+               method="POST" novalidate
+               action="{% url 'carrinho:atualiza_carrinho' %}">
+            {% csrf_token %}
+            {{ form.produto_id }}
+            <div class="input-group" style="width: 160px">
+               <div class="input-group-prepend">
+                  <input type="button"
+                         class="btn btn-secondary menos" value="-">
+               </div>
+               {{ form.quantidade }}
+               <div class="input-group-append">
+                  <input type="button"
+                         class="btn btn-secondary mais" value="+">
+               </div>
+            </div>
+         </form>
+         <input type="button" class="btn btn-primary comprar"
+                style="{% if form.quantidade.value > 0 %} display: none; {% endif %}width: 160px;"
+                value="Comprar">
+      </div>
+   </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block body%}
+    <div id="formulario" >
+
+    </div>
+
+    <div id='lista'>
+    </div>
+{% endblock%}
+
+
+{% block script %}
+
+    const update_lista = ()=>{
+        $.get("{% url  "produto:lista"%}", response => {
+            $("#lista").html(response)
+        })
+    }
+    update_lista()
+    $.get("{% url  "produto:new"%}", response => {
+        
+       
+        $('#formulario').html(response);
+    });
+
+
+    $("#formulario").submit(function(e){
+       
+        e.preventDefault();
+        const form = $(this).children()[0]
+        const obj = $(form).serializeArray()
+        
+        $.post("{% url  "produto:new"%}", obj, (response) => {
+            console.log(response)
+            update_lista()
+        })
+        console.log(obj)
+
+    })
+
+    $("#lista").on("click", ".remove-button", function(){
+        const id = $(this).data().id
+        const token = $("input[name='csrfmiddlewaretoken']").val()
+        console.log(token)
+        
+        $.post(`${id}/apagar`,{
+            "csrfmiddlewaretoken": token
+        } , function(){
+            update_lista()
+        })
+    })
+{% endblock%}
+
+{% block style%}
+    #formulario {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 40;
+    }
+
+     td ,tr{
+         text-align: center
+    }
+
+    .div-valor-total {
+        width: 80%;
+        text-align: right;
+        font-weight: 800;
+    }
+
+{% endblock%}

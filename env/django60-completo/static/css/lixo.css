@@ -1,0 +1,54 @@
+.info {
+    border-style: solid;
+    border-width: 1px;
+    border-color: blue;
+}
+
+.error {
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
+}
+
+.alert {
+    padding: 5px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+li.exclamation, li.exclamation1, li.exclamation2, li.information, li.exclamation-login-invalido, exclamation-conta-desabilitada {
+	background-position: 0.9em center;   /* 10px center; */
+	background-repeat: no-repeat;        /* O default é repeat. */
+	text-indent: 17px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+}
+
+li.exclamation {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/usado/exclamation2.png);
+}
+
+li.exclamation1 {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/exclamation1.png);
+}
+
+li.exclamation2 {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/exclamation2.png);
+}
+
+li.exclamation-login-invalido {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/exclamation-login-invalido.png);
+}
+
+li.exclamation-conta-desabilitada {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/exclamation-conta-desabilitada.png);
+}
+
+li.information {
+	text-indent: 30px;   /* Espaço entre o lado esquerdo do botão e o início do texto. */
+	background-image: url(../images/skin/information.png);
+}

@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block titulo %}
+   Cadastro de Produtos
+{% endblock %}
+
+{% block corpo %}
+   <div class='mb-4'>
+      <h5>Cadastro de Produtos</h5>
+      <hr class='mt-0'>
+   </div>
+
+   <form action="{% url 'produto:cadastra_produto' %}" method="POST" class="pb-4"
+         enctype="multipart/form-data" novalidate>
+      <div class="row mb-xl-3">
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_nome" class="col-xl-2 font-weight-bold">Nome</label>
+               <div class="col-xl-10">
+                  {{ form.nome }}
+                  {# <input type="text" name="nome" maxlength="100" required="" id="id_nome"> #}
+                  {% if form.nome.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.nome.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_descricao" class="col-xl-3 font-weight-bold">Descrição</label>
+               <div class="col-xl-9">
+                  {{ form.descricao }}
+                  {# <input type="text" name="descricao" maxlength="100" required="" id="id_descricao"> #}
+                  {% if form.descricao.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.descricao.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row mb-xl-3">
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_categoria" class="col-xl-2 font-weight-bold">Categoria</label>
+               <div class="col-xl-10">
+                  {{ form.categoria }}
+                  {% comment %}
+                     <select name="categoria" required="" id="id_categoria">
+                        <option value="" selected="">---------</option>
+                        <option value="1">Frutas</option>
+                        <option value="2">Legumes</option>
+                        <option value="3">Verduras</option>
+                     </select>
+                  {% endcomment %}
+                  {% if form.categoria.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.categoria.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_data_cadastro" class="col-xl-3 font-weight-bold">Data Cadastro</label>
+               <div class="col-xl-9">
+                  {{ form.data_cadastro }}
+                  {# <input type="text" name="data_cadastro" required="" id="id_data_cadastro"> #}
+                  {% if form.data_cadastro.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.data_cadastro.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row mb-xl-3">
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_preco" class="col-xl-2 font-weight-bold">Preço</label>
+               <div class="col-xl-10">
+                  {{ form.preco }}
+                  {# <input type="number" name="preco" value="0" step="0.01" required="" id="id_preco"> #}
+                  {% if form.preco.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.preco.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_qtd_estoque" class="col-xl-3 font-weight-bold">Estoque</label>
+               <div class="col-xl-9">
+                  {{ form.qtd_estoque }}
+                  {# <input type="number" name="qtd_estoque" value="0" required="" id="id_qtd_estoque"> #}
+                  {% if form.qtd_estoque.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.qtd_estoque.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row mb-3">
+         <div class="col-xl-6">
+            <div class="row">
+               <label for="id_imagem" class="col-xl-2 font-weight-bold">Imagem</label>
+               <div class="col-xl-10">
+                  {{ form.imagem }}
+                  {# <input type="text" name="imagem" maxlength="50" id="id_imagem"> #}
+                  {% if form.imagem.errors %}
+                     <div class="alert alert-danger mb-0" role="alert" style="padding-top: 2px; padding-bottom: 2px">
+                        {% for error in form.imagem.errors %}
+                           <small>{{ error }}</small>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-6">
+            <div class="row">
+               <div class="offset-xl-3 col-xl-9">
+                  <div class="form-check pl-0 mt-xl-0 mt-2">
+                     {{ form.disponivel }}
+                     {# <input type="checkbox" name="disponivel" id="id_disponivel"> #}
+                     <label for="id_disponivel" class="form-check-label">Disponível?</label>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row mb-5">
+         <div class="col-xl-6">
+            <div class="row">
+               <div class="col-xl-10 offset-xl-2">
+                  {% csrf_token %}
+                  <button id="botao" type="submit" class="btn btn-primary">
+                     {% if 'produto_id' in request.session %}
+                        <img src="{% static 'images/skin/database_edit.png' %}"> Alterar
+                     {% else %}
+                        <img src="{% static 'images/skin/database_add.png' %}"> Cadastrar
+                     {% endif %}
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </form>
+
+{% endblock %}
+
+{% block domready %}
+
+   $('#id_data_cadastro').datepicker({
+       changeMonth: true,
+       changeYear: true,
+       yearRange: "-3:+0",
+       dateFormat: 'dd/mm/yy',
+       dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+       dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+       dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+       monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+       monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+       nextText: 'Próximo',
+       prevText: 'Anterior',
+       showOn: 'focus',
+   })
+
+   $('#id_data_cadastro').mask('00/00/0000')
+
+{% endblock %}

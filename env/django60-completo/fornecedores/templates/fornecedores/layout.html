@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block corpo%}
+   
+    <div class='row' style="min-height: 392px;">
+        <div class="col-3">
+            <div class="col-lg-2">
+                <h5>Fornecedores</h5>
+                <div class="nav flex-column nav-pills">
+                    <a class="nac-link " href="{%url "fornecedores:lista"%}">Todos</a>
+                </div>
+                <div class="nav flex-column nav-pills">
+                    <a class="nac-link " href="{%url "fornecedores:novo"%}">Novo</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            {% block fornecedor_corpo %}
+            {% endblock fornecedor_corpo %}
+        </div>
+    </div>
+
+{% endblock corpo%}

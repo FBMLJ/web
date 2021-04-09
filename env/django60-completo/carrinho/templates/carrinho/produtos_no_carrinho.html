@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}
+    Hortifruti
+{% endblock %}
+
+{% block estilo %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block corpo %}
+
+   <div id="tabela">
+      <div class="mt-3 mb-4">
+         <h5 class="mb-2 text-primary">Meu Carrinho</h5>
+      </div>
+
+      <div class="table-responsive mb-3">
+         <table class="table table-sm">
+            <colgroup>
+               <col width="40%">
+               <col width="15%">
+               <col width="15%">
+               <col width="15%">
+               <col width="15%">
+            </colgroup>
+            <thead>
+               <tr>
+                  <th class="text-center">Produto</th>
+                  <th class="text-center">Preço Unitário</th>
+                  <th class="text-center">Quantidade</th>
+                  <th class="text-center">Preço Total</th>
+                  <th class="text-center">Remover</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for item, form in listas %}
+                  <tr>
+                     <td class="text-left align-middle">
+                        <div class="media">
+                           <a href="{{ item.produto.get_absolute_url }}" tabindex="-1">
+                              <img class="mr-3" style="width: 80px"
+                                   src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+                           </a>
+                           <div class="media-body">
+                              <h6 class="mt-2">
+                                 <a style="text-decoration: none" href="{{ item.produto.get_absolute_url }}"
+                                    tabindex="-1">
+                                    {{ item.produto.nome }}
+                                 </a>
+                              </h6>
+                              <p class="mb-2">{{ item.produto.descricao }}</p>
+                           </div>
+                        </div>
+                     </td>
+                     <td class="text-center align-middle">
+                        R$ {{ item.preco | intcomma }}
+                     </td>
+                     <td class="text-center align-middle">
+                        <form class="mx-auto" style="width: 60px;"
+                              action ="{% url 'carrinho:atualiza_carrinho' %}"
+                              method ="POST" novalidate>
+                           {% csrf_token %}
+                           {{ form.produto_id }}
+                           {{ form.quantidade }}
+                        </form>
+                     </td>
+                     <td class="text-right pr-5 align-middle preco-total">
+                        R$ {{ item.preco_total | intcomma }}
+                     </td>
+                     <td class="text-center align-middle">
+                        <form action ="{% url 'carrinho:atualiza_carrinho' %}"
+                              method ="post" novalidate>
+                           {% csrf_token %}
+                           {{ form.produto_id }}
+                           <button style="margin-top: 0px; margin-bottom: 0px;
+                                          padding-top: 3px; padding-bottom: 3px;
+                                          width: 40px"
+                                   type="button"
+                                   class="btn btn-sm btn-danger remover"
+                                   tabindex="-1">
+                              <img src="{% static 'images/skin/remove.png' %}">
+                           </button>
+                        </form>
+                     </td>
+                  </tr>
+               {% endfor %}
+               <tr>
+                  <td colspan="3">
+                     <strong style="margin-left: 10px">Total do carrinho ...</strong>
+                  </td>
+                  <td class="text-right pr-5">
+                     <strong id="valor-do-carrinho">R$ {{ valor_do_carrinho | floatformat:2 | intcomma }}</strong>
+                  </td>
+                  <td></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div class="d-flex justify-content-around mb-5">
+         <a href="{% url 'carrinho:lista_produtos' %}" class="btn btn-success" style="width: 160px">
+            Voltar às Compras
+         </a>
+         <a href="{% url 'carrinho:fecha_compra' %}" class="btn btn-success" style="width: 160px">
+            Fechar Compra
+         </a>
+      </div>
+   </div>
+
+{% endblock %}
+
+{% block domready %}
+
+   $("input.quantidade").addClass("form-control-sm")
+                        .removeClass("btn-secondary")
+                        .removeClass("border-0")
+                        .removeAttr("readonly")
+                        .css("background-color", "")
+
+   $("#tabela").on("blur", "input.quantidade", function() {
+      let valor = $(this).val()
+      if (valor < 1 || valor > 99) {
+         $(this).focus()
+         return
+      }
+
+      let form = $(this).parent()
+      let tr = form.parent().parent()
+      let url = form.attr("action")
+      let formData = form.serializeArray()
+      $.post(url, formData, function(resposta) {
+         tr.find(".preco-total").text(resposta.preco_total)
+         $("#valor-do-carrinho").text(resposta.preco_carrinho)
+         if (resposta.quantidade === 1)
+             $("#total-1").text(resposta.quantidade + " item - " + resposta.preco_carrinho)
+         else
+             $("#total-1").text(resposta.quantidade + " itens - " + resposta.preco_carrinho)
+         $("#total-2").text(resposta.preco_carrinho)
+      })
+   })
+
+   $("#tabela").on("click", ".remover", function() {
+      let form = $(this).parent()
+      form.append('<input type="hidden" name="quantidade" value="0">')
+      let tr = form.parent().parent()
+      let url = form.attr('action')
+      let formData = form.serializeArray()
+      $.post(url, formData, function(resposta) {
+         tr.fadeTo('slow', 0.3, function() {
+            $(this).remove()
+
+            $("#valor-do-carrinho").text(resposta.preco_carrinho)
+            if (resposta.quantidade === 1)
+                $("#total-1").text(resposta.quantidade + " item - " + resposta.preco_carrinho)
+            else
+                $("#total-1").text(resposta.quantidade + " itens - " + resposta.preco_carrinho)
+            $("#total-2").text(resposta.preco_carrinho)
+         })
+      })
+   })
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

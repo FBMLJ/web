@@ -1,0 +1,9 @@
+
+
+
+    <form  method="POST" style="display:flex;flex-direction:column;" id="produto-form">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" name="Submit" style="width: 60%; margin: 0 auto;margin-top: 20px"/>
+    </form>
+

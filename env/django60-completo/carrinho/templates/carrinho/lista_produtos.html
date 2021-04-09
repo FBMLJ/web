@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Hortifruti
+{% endblock %}
+
+{% block estilo %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block corpo %}
+
+    <!-- <div style="min-height: 387px"> -->
+       <div class="row">
+          <div class="col-lg-2">
+             <h5>Categorias</h5>
+             <div class="nav flex-column nav-pills">
+                <a class="nav-link {% if not categoria %}active{% endif %}" href="/">Todos</a>
+                {% for cat in categorias %}
+                   <a class="nav-link {% if cat == categoria %}active{% endif %}" href="{{ cat.get_absolute_url }}">
+                      {{ cat.nome }}
+                   </a>
+                {% endfor %}
+             </div>
+          </div>
+
+          <div class="col-lg-10">
+             <h5>{% if not categoria %}Produtos{% else %}{{ categoria.nome }}{% endif %}</h5>
+             <div id="lista-produtos">
+                {% include 'carrinho/pagina_de_produtos.html' %}
+             </div>
+          </div>
+       </div>
+    <!-- </div> -->
+
+{% endblock %}
+
+{% block domready %}
+   var pagina = 1;
+   var empty_page = false;
+   var block_request = false;
+
+   if ($(window).width() >= 1200)
+      percentual = 22/100
+   else if ($(window).width() >= 992)
+      percentual = 30/100
+   else if ($(window).width() >= 768)
+      percentual = 40/100
+   else if ($(window).width() >= 576)
+      percentual = 60/100
+   else
+      percentual = 70/100
+
+   $(window).scroll(function() {
+      if  (($(document).height() - $(window).height() - $(window).scrollTop() < percentual * $(window).height())
+           && empty_page == false && block_request == false) {
+		   block_request = true;
+		   pagina += 1;
+		   $.get('?pagina=' + pagina, function(resposta) {
+		      if(resposta == '') {
+		         empty_page = true;
+		      }
+		      else {
+               block_request = false;
+               $('#lista-produtos').append(resposta);
+    	      }
+         });
+    	}
+   });
+{% endblock %}

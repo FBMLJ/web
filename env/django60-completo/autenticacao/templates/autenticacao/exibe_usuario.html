@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Hortifruti
+{% endblock %}
+
+{% block corpo %}
+
+   <!-- <div style="min-height: 387px"> -->
+      <div class="mb-4">
+         <h5>Cadastro de Usuários</h5>
+         <hr class="mt-0">
+      </div>
+      <p>{{ usuario.first_name }} {{ usuario.last_name }}, sua conta foi criada com sucesso.</p>
+      <p>Para fechar suas compras, efetue o <a href="{% url 'autenticacao:login' %}">login</a>.</p>
+   <!-- </div> -->
+
+{% endblock %}

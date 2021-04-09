@@ -1,0 +1,51 @@
+{% extends 'fornecedores/layout.html' %}
+
+{% block fornecedor_corpo %}
+    
+    <form action="{% url 'fornecedores:lista'%}"type="GET" class="col-11" style="display:flex;justify-content:center">
+        {% csrf_token %}
+            <input value='{{search}}' name='search'type="text" placeholder="Pesquisa" style="width: 80% ;margin: 0 auto;"/>   
+
+    </form>
+    <br/>
+    <div class="row flex-row">
+        {% for fornecedor in fornecedores %}
+            <div class="card col-5" style="width: 18rem; margin-bottom:10px;">
+                    <h5 class="card-title">Nome: {{fornecedor.nome}}</h5>
+                <div class="card-body">
+                    <p class="card-text">Telefone: {{fornecedor.telefone}}</p>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a href="{%url "fornecedores:show" fornecedor.id%}" class="btn btn-success" style="font-size:70%;">Ver</a>
+                        </div>
+                        <div class="col-sm">
+                            <a href="{% url "fornecedores:editar" fornecedor.id%}" class="btn btn-warning"  style="font-size:70%;">Editar</a>
+                        </div>
+                        <div class="col-sm">
+                            <a href="{% url "fornecedores:delete" fornecedor.id%}" class="btn btn-danger" style="font-size:70%;">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-1'></div>
+        {% endfor %}
+        
+    </div>
+
+    
+    <div >
+        <span >
+            {% if fornecedores.has_previous %}
+            <a href="?page={{ fornecedores.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span >
+            Página {{ fornecedores.number }} de {{ fornecedores.paginator.num_pages }}.
+        </span>
+
+            {% if fornecedores.has_next %}
+                <a href="?page={{ fornecedores.next_page_number }}&search={{search}}">próxima</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock fornecedor_corpo %}

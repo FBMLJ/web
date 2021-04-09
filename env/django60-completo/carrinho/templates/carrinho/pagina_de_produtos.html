@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="row">
+   {% for produto, form in listas %}
+      <div class="col-xl-2 col-md-3 col-sm-4 col-6" style="padding-right: 0px; padding-left: 0px;">
+         <div class="card border-0 mb-3" style="margin-right: 6px; margin-left: 6px;">
+             <a href="{{ produto.get_absolute_url }}">
+                <img class="card-img-top rounded" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+             </a>
+             <div class="card-body">
+                 <h5 class="card-title">
+                     <a href="{{ produto.get_absolute_url }}" style="text-decoration: none;">
+                        {{ produto.nome }}
+                     </a>
+                 </h5>
+                 <p class="card-text">{{ produto.descricao }}</p>
+                 <p class="card-text font-weight-bold" style="color: #dc3545;">R$ {{ produto.preco }}</p>
+             </div>
+             <div class="card-footer border-0 p-0 mb-2">
+                <form class="form-inline"
+                      style="{% if form.quantidade.value == 0 %} display: none {% endif %}"
+                      method="POST" novalidate
+                      action="{% url 'carrinho:atualiza_carrinho' %}">
+                   {% csrf_token %}
+                   {{ form.produto_id }}
+                   <div class="input-group w-100">
+                      <div class="input-group-prepend">
+                         <input type="button"
+                                class="btn btn-secondary menos" value="-">
+                      </div>
+                      {{ form.quantidade }}
+                      <div class="input-group-append">
+                         <input type="button"
+                                class="btn btn-secondary mais" value="+">
+                      </div>
+                   </div>
+                </form>
+                <input type="button" class="btn btn-primary comprar w-100"
+                       style="{% if form.quantidade.value > 0 %} display: none {% endif %}"
+                       value="Comprar">
+             </div>
+         </div>
+      </div>
+   {% endfor %}
+</div>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobilização</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">Mobilização</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link " href="index.html">Home</a>
+                <a class="nav-item nav-link " href="faleConosco.html">Fale Conosco </a>
+                <a class="nav-item nav-link " href="sobre.html">Sobre </a>
+                <a class="nav-item nav-link" href="loja.html">Loja</a>
+
+                <a class="nav-item nav-link active" href="form.html">Novo Produto<span class="sr-only">(atual)</span></a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <form class="my-form">
+        <div class="form-group">
+            <label for="nomeField">Nome</label>
+            <br />
+            <input class="form-control" id="nomeField">
+            <div class="invalid-feedback"></div>
+        </div>
+        <br />
+        <br />
+    
+        <div class="form-group">
+            <label for="tipoField">Tipo</label>
+            <select class="form-control" id="tipoField">
+                <option value=0></option>
+                <option value=1>Mobilia</option>
+                <option value=2>Decoração</option>
+                <option value=3>Outro</option>
+            </select>
+            <div class="invalid-feedback"></div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="descricaoField">Descrição</label>
+            <textarea class="form-control" id="descricaoField" rows="3" value=""></textarea>
+            <div class="invalid-feedback"></div>
+        </div>
+        
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="freteGratis">
+            <label class="form-check-label" for="freteGratis">
+                Fretes Grátis?
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="garantia" >
+            <label class="form-check-label" for="garantia">
+                Garantia?
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="reembolsavel">
+            <label class="form-check-label" for="reembolsavel">
+                Reembolsável?
+            </label>
+        </div>
+        <!---->
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="unico">
+            <label class="form-check-label" for="unico">
+                Produto único
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="varios" checked>
+            <label class="form-check-label" for="varios">
+                Varias cores
+            </label>
+        </div>
+        
+
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-primary">Enviar</button>
+        </div>
+        <br /><br />
+    </form>
+
+
+
+<footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2020 Copyright:
+        <a class="text-dark" href="https://mdbootstrap.com/">Mobilizacao.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</body>
+
+</html>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+<script>
+    $(".my-form").submit((e) => {
+        e.preventDefault();
+        
+        const nome = $('#nomeField');
+        
+        if(!nome.val()){
+            nome.addClass('is-invalid');
+            nome.parent().children(".invalid-feedback").text("Nome do produto não pode estar vazio")
+            
+        }
+        const tipo = $('#tipoField');
+        
+        
+        if(!tipo.val()){
+            tipo.addClass('is-invalid');
+            tipo.parent().children(".invalid-feedback").text("Tipo do produto não pode estar vazio")
+
+        }
+        else if(tipo.val() > 3 || tipo.val()<0){
+            tipo.addClass('is-invalid');
+            tipo.parent().children(".invalid-feedback").text("Valor do campo tipo incorreto")
+            
+
+        }
+        const descricaoField = $("#descricaoField");
+        if((descricaoField.val()=="")){
+            
+            descricaoField.addClass('is-invalid');
+            descricaoField.parent().children(".invalid-feedback").text("Descrição do produto não pode estar vazia")
+            
+        }
+    })
+</script>

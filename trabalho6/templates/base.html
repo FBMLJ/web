@@ -1,0 +1,50 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <linkstat rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}"></linkstat>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    <title>{% block titulo %}Produto{% endblock %}</title>
+    <style>
+        {% block style %}
+
+        {% endblock %}
+    </style>
+</head>
+<body class="barra">
+
+    {% block body%}
+
+    {% endblock%}
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        {% block script%}
+        {% endblock %}
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

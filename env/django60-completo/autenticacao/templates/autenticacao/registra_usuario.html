@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Cadastro de Contas
+{% endblock %}
+
+{% block corpo %}
+   <div class='mb-4'>
+      <h5>Janela de Cadastro</h5>
+      <hr class="mt-0">
+   </div>
+
+   <form action ="" method ="post" novalidate>
+      {% for campo in form %}
+         <div class="row mb-2">
+             <label for="{{ campo.id_for_label }}" class="col-lg-2 font-weight-bold">{{ campo.label }}</label>
+             <div class="col-lg-4 col-md-9">
+                 <input type="{{ campo.field.widget.input_type }}"
+                        name="{{ campo.name }}"
+                        class="form-control form-control-sm {% if campo.errors %} is-invalid {% endif %}"
+                        maxlength="{{ campo.field.max_length }}"
+                        {% if campo.required %}required{% endif %}
+                        id="{{ campo.id_for_label }}"
+                        value="{{ campo.value|default_if_none:'' }}">
+                 <div class="invalid-feedback">
+                     {% for error in campo.errors %}
+                         {{ error }}
+                     {% endfor %}
+                 </div>
+             </div>
+         </div>
+      {% endfor %}
+
+      <div class="row mb-4">
+          <div class="offset-lg-2 col-lg-4 col-md-9">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">
+                  <img src="{% static 'images/skin/database_add.png' %}">
+                  Cadastrar
+              </button>
+          </div>
+      </div>
+   </form>
+{% endblock %}

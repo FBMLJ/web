@@ -1,0 +1,20 @@
+{% extends 'fornecedores/layout.html' %}
+
+{% block fornecedor_corpo %}
+    <div class="card ">
+        <h5 class="card-title" style="text-align:center;">Nome: {{fornecedor.nome}}</h5>
+        <div class="card-body">
+                    <p class="card-text">Telefone: {{fornecedor.telefone}}</p>
+                    <p class="card-text">CNPJ: {{fornecedor.cnpj}}</p>
+                    <p class="card-text">Endereço: {{fornecedor.endereco}}</p>
+                    <div class="row">
+                        <div class="col-6" style='display: flex; justify-content: center;'>
+                            <a href="{% url "fornecedores:editar" fornecedor.id%}" class="btn btn-warning" style="margin=0 auto;" >Editar</a>
+                        </div>
+                        <div class="col-6" style='display: flex; justify-content: center;'>
+                            <a href="{% url "fornecedores:delete" fornecedor.id%}" class="btn btn-danger" >Excluir</a>
+                        </div>
+                    </div>
+                </div>
+    </div>
+{% endblock fornecedor_corpo %}

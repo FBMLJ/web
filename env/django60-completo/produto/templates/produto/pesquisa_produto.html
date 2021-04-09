@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block titulo %}
+   Pesquisa de Produtos
+{% endblock %}
+
+{% block corpo %}
+   <div class='mb-4'>
+      <h5>Pesquisa de Produtos</h5>
+      <hr class='mt-0'>
+   </div>
+
+   <form action="" method ='GET' class="mb-4">
+      <div class='form-group row' style='margin-bottom: 10px;'>
+         <label for='id_nome' class='col-lg-2 col-form-label font-weight-bold'>
+            Nome
+         </label>
+         <div class='col-lg-10'>
+            {{ form.nome }}
+            <!--
+            <input type='text' name='nome' id='id_nome' class='form-control form-control-sm' maxlength='100'>
+            -->
+         </div>
+      </div>
+      <div class='form-group row'>
+         <div class="col-lg-10 offset-lg-2">
+            <button type='submit' class='btn btn-primary'>
+               <div class="d-flex align-items-center">
+                  <img src="{% static 'images/skin/binoculo.png' %}" class="mr-2">Pesquisar
+               </div>
+            </button>
+         </div>
+      </div>
+   </form>
+
+   <!-- <div style="min-height: 212px"> -->
+      {% if produtos %}
+         <h5 class="mb-3">Lista de Produtos</h5>
+         <table style='width:100%'
+                class='table table-striped table-sm table-bordered table-responsive mb-4'>
+            <thead>
+               <tr>
+                  <th class='text-center'>Imagem</th>
+                  <th class='text-center'>Categoria</th>
+                  <th class='text-center'>Nome/Descrição</th>
+                  <th class="text-center">Disponível</th>
+                  <th class='text-center'>Data de Cadastro</th>
+                  <th class="text-center">Quantidade</th>
+                  <th class="text-center">Preço Unitário</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for produto in produtos %}
+                  <tr>
+                     <td width="10%" class="text-center align-middle">
+                        <img style="width:80px"
+                             src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                     </td>
+                     <td width="10%" class="text-center align-middle">
+                        {{ produto.categoria }}
+                     </td>
+                     <td width="35%" class="align-middle">
+                        <a href="{% url 'produto:exibe_produto' produto.id %}">
+                           {{ produto.nome }} ({{ produto.descricao }})
+                        </a>
+                     </td>
+                     <td width="10%" class="text-center align-middle">
+                        {{ produto.get_disponivel }}
+                     </td>
+                     <td width="15%" class="text-center align-middle">
+                        {{ produto.data_cadastro | date:'d/m/Y' }}
+                     </td>
+                     <td width="10%" class="text-right align-middle pr-3">
+                        {{ produto.qtd_estoque }}
+                     </td>
+                     <td width="15%" class="text-right align-middle pr-3">
+                        R$ {{ produto.preco }}
+                     </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+
+         <div style='font-size: 14px; margin-bottom: 28px'>
+            {% if produtos.has_other_pages %}
+               <ul class='pagination'>
+                  {% if produtos.has_previous %}
+                     <li class='page-item'><a class='page-link' href='?pagina={{ produtos.previous_page_number }}&nome={{nome}}'>Anterior</a></li>
+                  {% else %}
+                     <li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>
+                  {% endif %}
+                  {% for i in produtos.paginator.page_range %}
+                     {% if produtos.number == i %}
+                        <li class='page-item active'><a class='page-link' href='#'>{{ i }} </a></li>
+                     {% else %}
+                        <li class='page-item'><a class='page-link' href='?pagina={{ i }}&nome={{nome}}'>{{ i }}</a></li>
+                     {% endif %}
+                  {% endfor %}
+                  {% if produtos.has_next %}
+                     <li class='page-item'><a class='page-link' href='?pagina={{ produtos.next_page_number }}&nome={{nome}}'>Próxima</a></li>
+                  {% else %}
+                     <li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Próxima</a></li>
+                  {% endif %}
+               </ul>
+            {% endif %}
+         </div>
+      {% endif %}
+   <!-- </div> -->
+
+{% endblock %}

@@ -1,0 +1,266 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    <title>{% block titulo %}Hortifruti{% endblock %}</title>
+    <style>
+        {% block estilo %}
+
+        {% endblock %}
+    </style>
+</head>
+<body class="barra">
+
+    <div class="container mt-3 mb-2">
+        <div class="row">
+            <div class="col-3">
+                <a class="d-none d-md-block" style="text-decoration: none; font-size: 16px" href="/">
+                    <img src="{% static 'images/hortifruti-icon.png' %}" style="width: 70px" alt="Hortifruti">
+                    Hortifruti
+                </a>
+                <a class="d-block d-md-none" style="text-decoration: none; font-size: 16px" href="#">
+                    <img src="{% static 'images/hortifruti-icon.png' %}" style="width: 70px" alt="Hortifruti">
+                </a>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center">
+                <div class="d-none d-lg-block">
+                    {% if not user.is_authenticated %}
+                        <div class="d-flex justify-content-center">
+                            Já é cadastrado? Faça seu<a style="text-decoration: none" class="pl-1" href="{% url 'autenticacao:login' %}">login!</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a style="text-decoration: none" href="{% url 'autenticacao:registra_usuario' %}">Cadastre-se aqui.</a>
+                        </div>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <div class="d-flex justify-content-center">
+                            <a style="text-decoration: none; margin-right: 100px" href="{% url 'produto:cadastra_produto' %}">Cadastrar Produto</a>
+                            <a style="text-decoration: none" href="{% url 'produto:lista_produto' %}">Listar Produtos</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="d-lg-none">
+                    {% if not user.is_authenticated %}
+                        <div class="d-flex justify-content-center">
+                            Já é cadastrado?
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            Faça seu<a style="text-decoration: none" class="pl-1" href="{% url 'autenticacao:login' %}">login!</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a style="text-decoration: none" href="{% url 'autenticacao:registra_usuario' %}">Cadastre-se aqui.</a>
+                        </div>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <div class="d-flex justify-content-center">
+                            <a style="text-decoration: none" href="{% url 'produto:cadastra_produto' %}">Cadastrar Produto</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a style="text-decoration: none" href="{% url 'produto:lista_produto' %}">Listar Produtos</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                <a style="text-decoration: none" href="{% url 'fornecedores:lista'%}">Fornecedores</a>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end align-items-center">
+                <div class="d-none d-sm-block">
+                    <a style="text-decoration: none" href="{% url 'carrinho:exibe_carrinho' %}">
+                        <img src="{% static 'images/carrinho.png' %}" style="width: 35px" alt="Carrinho">
+                        Carrinho
+                    </a>
+                    
+                    <div id="total-1" class="d-flex justify-content-center" style="font-size: 11px">
+                        {% if quantidade == 1 %}
+                            {{ quantidade }} item - R$ {{ preco_carrinho | floatformat:2 | intcomma }}
+                        {% else %}
+                            {{ quantidade }} itens - R$ {{ preco_carrinho | floatformat:2 | intcomma }}
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="d-flex justify-content-center small">
+                            Olá {{ user.first_name }} -
+                                <a style="text-decoration: none" href="{% url 'autenticacao:sair' %}"
+                                   class="pl-1">Sair.</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="d-block d-sm-none">
+                    <a style="text-decoration: none" href="{% url 'carrinho:exibe_carrinho' %}">
+                        <img src="{% static 'images/carrinho.png' %}" style="width: 35px" alt="Carrinho">
+                    </a>
+                    <div id="total-2" class="d-flex justify-content-center" style="font-size: 11px">
+                        R$ {{ preco_carrinho | floatformat:2 | intcomma }}
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="d-flex justify-content-center small">
+                            Olá {{ user.first_name }} -
+                                <a style="text-decoration: none" href="{% url 'autenticacao:sair' %}"
+                                   class="pl-1">Sair.</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 3px" class="bg-danger mb-3"></div>
+
+    <div id="container" class="container">
+        {% block corpo %}
+
+        {% endblock %}
+    </div>
+
+    {% block rodape %}
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <h6>Institucional</h6>
+                        <ul class="list-unstyled">
+                            <li><a style="text-decoration: none" href="#">Política de pagamento</a></li>
+                            <li><a style="text-decoration: none" href="#">Política de troca</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <h6>Atendimento</h6>
+                        <ul class="list-unstyled">
+                            <li><a style="text-decoration: none" href="#">Fale conosco</a></li>
+                            <li><a style="text-decoration: none" href="#">Prazo de entrega</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <h6>Nossa Empresa</h6>
+                        <ul class="list-unstyled">
+                            <li><a style="text-decoration: none" href="#">Quem somos</a></li>
+                            <li><a style="text-decoration: none" href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <h6>News Letter</h6>
+                        <form class="form-inline">
+                            <label class="sr-only" for="email">Email</label>
+                            <input type="text" name="email" id="email"
+                                   class="form-control form-control-sm mr-2 mb-2"
+                                   placeholder="Seu email">
+                            <button type="submit" class="btn btn-sm btn-primary mb-2">Enviar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+
+            {% block domready %}
+
+            {% endblock %}
+
+            $("#lista-produtos").on("click", "input.comprar", function(){
+                this.blur()
+                let botao_comprar = this
+                let form = $(botao_comprar).prev()
+                form.find("input[name='quantidade']").val(1)
+                let url = form.attr('action')
+                let formData = form.serializeArray()
+                $.post(url, formData, function(resposta) {
+                    $(botao_comprar).fadeTo('fast', 0.3, function() {
+                        $(botao_comprar).hide()
+                        form.show()
+                        if (resposta.quantidade === 1)
+                            $("#total-1").text(resposta.quantidade + " item - " + resposta.preco_carrinho)
+                        else
+                            $("#total-1").text(resposta.quantidade + " itens - " + resposta.preco_carrinho)
+                        $("#total-2").text(resposta.preco_carrinho)
+                    })
+                })
+            })
+
+            $("#lista-produtos").on("click", "input.mais", function(){
+                this.blur()
+                var input = $(this).parent().prev()
+                var num = +input.val() + 1
+                if (num < 100) {
+                    input.val(num)
+                    let form = $(this).parent().parent().parent()
+                    let url = form.attr('action')
+                    let formData = form.serializeArray()
+                    $.post(url, formData, function(resposta) {
+                        if (resposta.quantidade === 1)
+                            $("#total-1").text(resposta.quantidade + " item - " + resposta.preco_carrinho)
+                        else
+                            $("#total-1").text(resposta.quantidade + " itens - " + resposta.preco_carrinho)
+                        $("#total-2").text(resposta.preco_carrinho)
+                    })
+                }
+                else {
+                    return
+                }
+            })
+
+            $("#lista-produtos").on("click", "input.menos", function(){
+                this.blur()
+                let botao_menos = this
+                let input = $(botao_menos).parent().next()
+                let num = +input.val() - 1
+                if (num < 0) {
+                    num = 0
+                }
+                input.val(num)
+                let form = $(botao_menos).parent().parent().parent()
+                let botao_comprar = form.next()
+                let url = form.attr('action')
+                let formData = form.serializeArray()
+                $.post(url, formData, function(resposta) {
+                    if (num == 0) {
+                        form.hide()
+                        $(botao_comprar).fadeTo('fast', 1)
+                    }
+                    if (resposta.quantidade === 1)
+                        $("#total-1").text(resposta.quantidade + " item - " + resposta.preco_carrinho)
+                    else
+                        $("#total-1").text(resposta.quantidade + " itens - " + resposta.preco_carrinho)
+                    $("#total-2").text(resposta.preco_carrinho)
+                })
+            })
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

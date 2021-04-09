@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block titulo %}
+   Cadastro de Produtos
+{% endblock %}
+
+{% block corpo %}
+   <div class='mb-4'>
+      <h5>Cadastro de Produtos</h5>
+      <hr class='mt-0'>
+   </div>
+
+   <!-- <div style="min-height: 330px"> -->
+      {% if messages %}
+         <div class="mb-3">
+            {% for message in messages %}
+               <ul class="list-group rounded">
+                  <li style="padding-top: 7px; padding-bottom: 7px"
+                      class="list-group-item list-group-item-info">
+                     {{ message }}
+                  </li>
+               </ul>
+            {% endfor %}
+         </div>
+      {% endif %}
+
+      <div class="row mb-3">
+         <div class="col-lg-3 col-md-4">
+            {% if produto.imagem %}
+               <img class="mr-3" style="width: 210px"
+                    src="{{produto.imagem.url}}" alt="{{ produto.nome }}">
+            {% else %}
+               <div class="text-md-center mb-md-0 mb-2">
+                  Imagem não disponível
+               </div>
+            {% endif %}
+         </div>
+         <div class="col-lg-9 col-md-8">
+            <div class="row">
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Categoria</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.categoria }}</div>
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Nome</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.nome }} ({{ produto.descricao }})</div>
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Preço</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.preco }}</div>
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Estoque</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.qtd_estoque }}</div>
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Data Cadastro</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.data_cadastro | date:'d/m/Y' }}</div>
+               <div class="col-xl-2 col-lg-3 col-4 font-weight-bold mb-1">Disponível</div>
+               <div class="col-xl-10 col-lg-9 col-8">{{ produto.get_disponivel }}</div>
+            </div>
+         </div>
+      </div>
+
+      {% if produto.id %}
+         <div class="form-group row">
+            <div class="col-12">
+               <div class="form-inline">
+                  <a href="{% url 'produto:edita_produto' produto.id %}" class="btn btn-primary mr-3">
+                     <img src="{% static 'images/skin/database_edit.png' %}" /> Editar
+                  </a>
+
+                  <form action="{% url 'produto:remove_produto' %}" method="POST">
+                     {% csrf_token %}
+                     <button type="submit" class="btn btn-danger">
+                        <img src="{% static 'images/skin/database_delete.png' %}"> Remover
+                     </button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      {% endif %}
+   <!-- </div> -->
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
